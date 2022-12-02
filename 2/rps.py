@@ -1,4 +1,4 @@
-import os
+from aocd import get_data
 
 ROCK = 1
 PAPER = 2
@@ -19,17 +19,11 @@ PLAY_VALUES = {
     'CX': WIN
 }
 
-__location__ = os.path.realpath(
-    os.path.join(os.getcwd(), os.path.dirname(__file__)))
+total_score = 0
+for line in get_data(day=2, year=2022).splitlines():
+    play = line.strip().split(' ')
+    score = ITEMS[play[1]] + PLAY_VALUES.get(play[0]+play[1], 0)
+    print(f"{play} score: {score}")
+    total_score += score
 
-with open(os.path.join(__location__, 'input.txt'), 'r') as f:
-    lines = f.readlines()
-    total_score = 0
-    for line in lines:
-        play = line.strip().split(' ')
-        score = ITEMS[play[1]] + PLAY_VALUES.get(play[0]+play[1], 0)
-        print(f"{play} score: {score}")
-        total_score += score
-    
-    print(total_score)          
-    
+print(total_score)      

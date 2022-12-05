@@ -1,8 +1,11 @@
 import copy
-from aocd import get_data, submit
+from aocd import submit
 import re
 from queue import LifoQueue as lq
 from collections import deque, OrderedDict as od
+
+from tools import get_data
+
 # data = """
 #     [D]    
 # [N] [C]    
@@ -16,17 +19,12 @@ from collections import deque, OrderedDict as od
 # move 1 from 1 to 2
 # """.splitlines()
 
-
-
-data = get_data(day=5, year=2022).splitlines()
+data = get_data(day=5, year=2022, remote=True)
 
 print(data)
 
 stacks_init = {}
 moves = []
-
-
-
 
 for line in data:
     if move := re.match('move ([0-9]+) from ([1-9]+) to ([1-9]+)\s?', line):

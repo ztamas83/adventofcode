@@ -10,4 +10,7 @@ def get_data(day:int, year:int, remote:bool = False) -> list[str]:
         return aocd_gd(day=day, year=year).splitlines()
     
     with open(os.path.join(__location__, f'input_{year}_{day}.txt'), 'r') as f:
-        return f.readlines().splitlines()
+        lines = f.readlines()
+        if "\n" in lines:
+            return lines.splitlines()
+        return lines

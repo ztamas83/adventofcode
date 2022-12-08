@@ -50,13 +50,9 @@ class Puzzle8(Puzzle):
 daily_puzzle = Puzzle8()
 
 if SUBMIT:
-    daily_puzzle.init_data()
-    (answer_a, answer_b) = daily_puzzle.solve()
-    
-    submit(answer_a, part='a', day=8, year=2022)
-    submit(answer_b, part='b', day=8, year=2022)
+    daily_puzzle.submit()
 else:
-    daily_puzzle.init_data(True)
+    daily_puzzle.init_data()
     (answer_a, answer_b) = daily_puzzle.solve()
     assert(answer_a == 21)
     assert(answer_b == 8)

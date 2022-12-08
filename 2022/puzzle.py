@@ -1,4 +1,5 @@
 import os
+from typing import Any
 from aocd import get_data, submit
 from abc import ABC, abstractmethod
 
@@ -12,17 +13,26 @@ class Puzzle():
         self._data : list[str] = []
     
     @abstractmethod
-    def solve_a(self):
+    def solve_a(self) -> Any:
         pass
 
     @abstractmethod
-    def solve_b(self):
+    def solve_b(self) -> Any:
         pass
 
     @abstractmethod
-    def solve(self) -> tuple:
+    def solve(self) -> tuple[Any, Any]:
         return (self.solve_a(), self.solve_b())
     
+
+    def submit(self, sub_a = True, sub_b = True):
+        self.init_data(True)
+        (a, b) = self.solve()
+        if (sub_a):
+            submit(a, day=self._day, year=self._year, part='a')
+        if (sub_b):
+            submit(b, day=self._day, year=self._year, part='b')
+
     def init_data(self, remote:bool = False) -> list[str]:
         """Return daily puzzle input"""
         if remote:

@@ -1,0 +1,35 @@
+import os
+from aocd import get_data, submit
+from abc import ABC, abstractmethod
+
+__location__ = os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__)))
+
+class Puzzle():
+    def __init__(self, year: int, day: int) -> None:
+        self._day = day
+        self._year = year
+        self._data : list[str] = []
+    
+    @abstractmethod
+    def solve_a(self):
+        pass
+
+    @abstractmethod
+    def solve_b(self):
+        pass
+
+    @abstractmethod
+    def solve(self) -> tuple:
+        return (self.solve_a(), self.solve_b())
+    
+    def init_data(self, remote:bool = False) -> list[str]:
+        """Return daily puzzle input"""
+        if remote:
+            self._data = get_data(day=self._day, year=self._year).splitlines()
+        
+        with open(os.path.join(__location__, f'input_{self._year}_{self._day}.txt'), 'r') as f:
+            lines = f.readlines()
+            if "\n" in lines:
+                return lines.splitlines()
+            self._data = lines

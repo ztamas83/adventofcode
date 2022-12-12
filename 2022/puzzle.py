@@ -36,10 +36,8 @@ class Puzzle():
     def init_data(self, remote:bool = False) -> list[str]:
         """Return daily puzzle input"""
         if remote:
-            self._data = get_data(day=self._day, year=self._year).splitlines()
+            self._data = get_data(day=self._day, year=self._year)
         else:
             with open(os.path.join(__location__, f'input_{self._year}_{self._day}.txt'), 'r') as f:
-                lines = f.readlines()
-                if "\n" in lines:
-                    return lines.splitlines()
+                lines = f.read()
                 self._data = lines

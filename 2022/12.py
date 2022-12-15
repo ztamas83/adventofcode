@@ -157,8 +157,6 @@ class Day12(Puzzle):
                 print(f'current shortest: {min(possible_paths, default=None)}')
         return min(possible_paths)
 
-       
-        
 puzzle = Day12()
 
 puzzle.submit()

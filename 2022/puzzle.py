@@ -20,6 +20,7 @@ class Puzzle():
     def solve_b(self) -> Any:
         pass
 
+
     @abstractmethod
     def solve(self) -> tuple[Any, Any]:
         return (self.solve_a(), self.solve_b())

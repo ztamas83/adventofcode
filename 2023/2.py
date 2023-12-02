@@ -1,5 +1,6 @@
 from puzzle import Puzzle
 import re
+import math
 
 limits = {'red':12, 'green':13, 'blue':14}
 class DailyPuzzle(Puzzle):
@@ -7,27 +8,22 @@ class DailyPuzzle(Puzzle):
         super(DailyPuzzle, self).__init__(2023, 2)
         self.init_data(remote=True)
     
-    def get_cubes(self, draw: str) -> dict[str, int]: # 3 red, 4 green
-        cubes: dict[str,int] = {}
-        for instance in draw.split(','):
-            (num, color) = instance.strip().split(' ')
-            cubes[color] = int(num)
-        return cubes
+    def get_cubes(self, game: str) -> tuple[int, list[tuple[int, str]]]: # 3 red, 4 green
+        matches = re.findall('((Game (\d+): )|(\d+ (?:red|green|blue)))', game)
+        return (int(matches[0][2]), list(map(lambda m: str(m[0]).split(' '), matches[1:])))
     
     def solve_a(self):
         sum = 0
         for game in self._data.splitlines():
             valid = True
-            gameid = int(str(game).split(':')[0].replace('Game ', ''))
-            draws = str(game).split(':')[1].split(';')
-            for draw in draws:
+            (gameid, cubes) = self.get_cubes(game) 
+            for (num, color) in cubes:
+                print(num, color)
+                if int(num) > limits[color]:
+                    valid = False
                 if not valid:
                     break
-                cubes = self.get_cubes(draw)
-                print(f'{gameid}: {cubes}')
-                for c in cubes.keys():
-                    if cubes[c] > limits[c]:
-                        valid = False
+                
             if (valid):
                 sum += gameid
             else:
@@ -39,18 +35,14 @@ class DailyPuzzle(Puzzle):
     def solve_b(self):
         sum = 0
         for game in self._data.splitlines():
-            min = {'red':0, 'green':0, 'blue':0}
-            gameid = int(str(game).split(':')[0].replace('Game ', ''))
-            draws = str(game).split(':')[1].split(';')
-            for draw in draws:
-                
-                cubes = self.get_cubes(draw)
-                print(f'{gameid}: {cubes}')
-                for c in cubes.keys():
-                    if cubes[c] > min[c]:
-                        min[c] = cubes[c]
-            
-            print(min)
+            (gameid, cubes) = self.get_cubes(game)
+            cubes.sort(key=lambda c: int(c[0]), reverse=True)
+            min = {}
+            for (n,c) in cubes:
+                if not min.get(c):
+                    min[c] = int(n)
+                if len(min) == 3:
+                    break
             sum += min['red'] * min['blue'] * min['green']
             
         return sum
@@ -61,7 +53,7 @@ class DailyPuzzle(Puzzle):
 solution = DailyPuzzle()
 SUBMIT=False
 
-#print(solution.solve_a())
+print(solution.solve_a())
 print(solution.solve_b())
 if (SUBMIT):
     solution.submit()

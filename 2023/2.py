@@ -16,12 +16,15 @@ class DailyPuzzle(Puzzle):
         sum = 0
         for game in self._data.splitlines():
             valid = True
-            (gameid, cubes) = self.get_cubes(game) 
+            (gameid, cubes) = self.get_cubes(game)
+            print(f'---------- Game {gameid} ---------')
+            cubes.sort(key=lambda c: int(c[0]), reverse=True)
             for (num, color) in cubes:
                 print(num, color)
+                if int(num) < 12:
+                    break
                 if int(num) > limits[color]:
                     valid = False
-                if not valid:
                     break
                 
             if (valid):
@@ -41,7 +44,7 @@ class DailyPuzzle(Puzzle):
             for (n,c) in cubes:
                 if not min.get(c):
                     min[c] = int(n)
-                if len(min) == 3:
+                if len(min) == 3: # found all three colors minimum required
                     break
             sum += min['red'] * min['blue'] * min['green']
             

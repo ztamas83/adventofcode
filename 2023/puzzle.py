@@ -10,7 +10,7 @@ class Puzzle():
     def __init__(self, year: int, day: int) -> None:
         self._day = day
         self._year = year
-        self._data : list[str] = []
+        self._data : str = []
     
     @abstractmethod
     def solve_a(self) -> Any:
@@ -34,7 +34,7 @@ class Puzzle():
         if (sub_b):
             submit(b, day=self._day, year=self._year, part='b')
 
-    def init_data(self, remote:bool = False) -> list[str]:
+    def init_data(self, remote:bool = False):
         """Return daily puzzle input"""
         if remote:
             self._data = get_data(day=self._day, year=self._year)

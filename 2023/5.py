@@ -32,7 +32,6 @@ class DailyPuzzle(Puzzle):
         check_maps = deque(self.maps[(map_from_item, map_to_item)])
         while len(items_to_map) > 0:
             map_idx = 0
-            #for item_value in self.items[map_from_item]:
             item_value = items_to_map.popleft()
             map_found = False
             while map_idx < len(check_maps):

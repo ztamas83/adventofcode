@@ -67,23 +67,7 @@ class Day(Puzzle):
         return sum
 
     def solve_b(self):
-        sum = 0
-        enabled = True
-        for line in self._data.splitlines():
-            print(line)
-            reg = r"(do\(\)|don\'t\(\)|mul\((\d{1,3}),(\d{1,3})\))"
-
-            instructions = re.findall(reg, line)
-            for instruction in instructions:
-                print(instruction)
-                if instruction[0] == "don't()":
-                    enabled = False
-                if instruction[0] == "do()":
-                    enabled = True
-
-                if enabled and instruction[0].startswith("mul"):
-                    sum += int(instruction[1]) * int(instruction[2])
-        return sum
+        pass
 
     def solve(self):
         return (self.solve_a(), self.solve_b())
